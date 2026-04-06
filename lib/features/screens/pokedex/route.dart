@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:projetopokedex/common/models/repositories/pokemon_repository.dart';
 import 'package:projetopokedex/features/screens/details/detail_container.dart';
 import 'package:projetopokedex/features/screens/home/container/home_container.dart';
-
+import 'package:projetopokedex/snapshots/datasources/pokemon_local_data_source.dart';
 
 class PokedexRoute extends StatelessWidget {
-  const PokedexRoute({super.key, required this.repository});
+  const PokedexRoute({
+    super.key,
+    required this.repository,
+    required this.dataSource,
+  });
   final PokemonRepository repository;
+  final PokemonLocalDataSource dataSource;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +22,8 @@ class PokedexRoute extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) {
               return HomeContainer(
-                repository: repository, 
+                dataSource: dataSource,
+                repository: repository,
                 onItemTap: (route, arguments) {
                   Navigator.of(context).pushNamed(route, arguments: arguments);
                 },

@@ -3,7 +3,7 @@ import 'package:projetopokedex/common/error/failure.dart';
 import 'package:projetopokedex/common/models/pokemon.dart';
 
 abstract class IPokemonRepository {
-  Future<List<Pokemon>> getAllPokemon();
+  Future<List<Pokemon>> getPokemon();
 }
 
 class PokemonRepository implements IPokemonRepository {
@@ -11,7 +11,7 @@ class PokemonRepository implements IPokemonRepository {
 
   PokemonRepository({required this.dio});
   @override
-  Future<List<Pokemon>> getAllPokemon({int offset = 0}) async {
+  Future<List<Pokemon>> getPokemon({int offset = 0}) async {
     try {
       final response = await dio.get(
         'https://pokeapi.co/api/v2/pokemon?limit=20&offset=$offset',

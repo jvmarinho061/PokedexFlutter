@@ -35,7 +35,7 @@ class DetailContainerState extends State<DetailContainer> {
   void initState() {
     _controller = PageController(
         viewportFraction: 0.5, initialPage: widget.arguments.index!);
-    _future = widget.repository.getAllPokemon();
+    _future = widget.repository.getPokemon();
     super.initState();
   }
 
