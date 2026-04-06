@@ -1,0 +1,76 @@
+import 'package:flutter/material.dart';
+
+class Pokemon {
+  final String name;
+  final List<String> types;
+  final int id;
+  final String num;
+
+  factory Pokemon.fromMap(Map<String, dynamic> json) {
+    return Pokemon(
+      name: json['name'],
+      id: json['id'],
+      num: json['id'].toString(),
+      types: (json['types'] as List)
+    .map((e) {
+      final type = e['type']['name'].toString();
+      return type[0].toUpperCase() + type.substring(1);
+    })
+    .toList()
+    );
+  }
+
+  Color? get baseColor => _color(type: types[0]);
+  String get image =>
+      'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png';
+
+  Pokemon({
+    required this.name,
+    required this.types,
+    required this.id,
+    required this.num,
+  });
+
+  static Color? _color({required String type}) {
+    switch (type) {
+      case 'Normal':
+        return Colors.brown[400];
+      case 'Fire':
+        return Colors.red;
+      case 'Water':
+        return Colors.blue;
+      case 'Grass':
+        return Colors.green;
+      case 'Electric':
+        return Colors.amber;
+      case 'Ice':
+        return Colors.cyanAccent[400];
+      case 'Fighting':
+        return Colors.orange;
+      case 'Poison':
+        return Colors.purple;
+      case 'Ground':
+        return Colors.orange[300];
+      case 'Flying':
+        return Colors.indigo[200];
+      case 'Psychic':
+        return Colors.pink;
+      case 'Bug':
+        return Colors.lightGreen[500];
+      case 'Rock':
+        return Colors.grey;
+      case 'Ghost':
+        return Colors.indigo[400];
+      case 'Dark':
+        return Colors.brown;
+      case 'Dragon':
+        return Colors.indigo[800];
+      case 'Steel':
+        return Colors.blueGrey;
+      case 'Fairy':
+        return Colors.pinkAccent[100];
+      default:
+        return Colors.grey;
+    }
+  }
+}
