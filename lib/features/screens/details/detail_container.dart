@@ -5,72 +5,96 @@ import 'package:projetopokedex/common/models/repositories/pokemon_repository.dar
 import 'package:projetopokedex/common/widgets/po_error.dart';
 import 'package:projetopokedex/common/widgets/po_loading.dart';
 import 'package:projetopokedex/features/screens/details/datail_page.dart';
-
+import 'package:projetopokedex/features/screens/details/detail_controller.dart';
+import 'package:projetopokedex/common/models/repositories/pokemon_description_repository.dart';
+import 'package:projetopokedex/snapshots/datasources/pokemon_local_data_source.dart';
 
 class DetailArguments {
   DetailArguments({this.index = 0, required this.pokemon});
+
   final Pokemon pokemon;
   final int? index;
 }
 
 class DetailContainer extends StatefulWidget {
-  const DetailContainer(
-      {super.key,
-      required this.repository,
-      required this.arguments,
-      required this.onBack});
+  const DetailContainer({
+    super.key,
+    required this.repository,
+    required this.arguments,
+    required this.onBack,
+    required this.dataSource,
+    required this.descriptionRepository,
+  });
+
   final IPokemonRepository repository;
   final DetailArguments arguments;
   final VoidCallback onBack;
+  final PokemonLocalDataSource dataSource;
+  final PokemonDescriptionRepository descriptionRepository;
 
   @override
-  DetailContainerState createState() => DetailContainerState();
+  State<DetailContainer> createState() => DetailContainerState();
 }
 
 class DetailContainerState extends State<DetailContainer> {
-  late PageController _controller;
-  late Future<List<Pokemon>> _future;
-  Pokemon? _pokemon;
+  late PageController pageController;
+  late Future<List<Pokemon>> future;
+  late DetailController detailController;
+
+  Pokemon? pokemon;
+
   @override
   void initState() {
-    _controller = PageController(
-        viewportFraction: 0.5, initialPage: widget.arguments.index!);
-    _future = widget.repository.getPokemon();
     super.initState();
+
+    pageController = PageController(
+      viewportFraction: 0.5,
+      initialPage: widget.arguments.index ?? 0,
+    );
+    detailController = DetailController(
+      widget.dataSource,
+      repository: widget.descriptionRepository,
+    );
+    future = widget.repository.getPokemon();
+    pokemon = widget.arguments.pokemon;
+    detailController.loadDescription(pokemon!.name);
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    detailController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Pokemon>>(
-      future: _future,
+      future: future,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return PoLoading();
+          return const PoLoading();
         }
-
-        if (snapshot.connectionState == ConnectionState.done &&
-            snapshot.hasData) {
-          _pokemon ??= widget.arguments.pokemon;
-          return DetailPage(
-            pokemon: _pokemon!,
-            list: snapshot.data!,
-            onBack: widget.onBack,
-            controller: _controller,
-            onChangePokemon: (Pokemon value) {
-              setState(() {
-                _pokemon = value;
-              });
-            },
-          );
-        }
-
         if (snapshot.hasError) {
           return PoError(
             error: (snapshot.error as Failure).message,
           );
         }
+        final list = snapshot.data!;
+        return DetailPage(
+          pokemon: pokemon!,
+          list: list,
+          onBack: widget.onBack,
+          controller: detailController,
+          pageController: pageController,
 
-        return Container();
+          onChangePokemon: (Pokemon value) {
+            setState(() {
+              pokemon = value;
+            });
+            detailController.loadDescription(value.name);
+          },
+        );
       },
     );
   }

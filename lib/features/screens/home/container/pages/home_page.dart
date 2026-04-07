@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projetopokedex/features/screens/details/detail_container.dart';
-import 'package:projetopokedex/features/screens/home/container/pages/home_controller.dart';
+import 'package:projetopokedex/features/screens/home/container/home_controller.dart';
 import 'package:projetopokedex/features/screens/home/container/pages/widgets/pokemon_item_widget.dart';
 
 

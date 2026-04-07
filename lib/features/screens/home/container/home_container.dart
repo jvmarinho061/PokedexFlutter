@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projetopokedex/common/error/failure.dart';
 import 'package:projetopokedex/common/models/repositories/pokemon_repository.dart';
 import 'package:projetopokedex/features/screens/details/detail_container.dart';
-import 'package:projetopokedex/features/screens/home/container/pages/home_controller.dart';
+import 'package:projetopokedex/features/screens/home/container/home_controller.dart';
 import 'package:projetopokedex/features/screens/home/container/pages/home_error.dart';
 import 'package:projetopokedex/features/screens/home/container/pages/home_loading.dart';
 import 'package:projetopokedex/features/screens/home/container/pages/home_page.dart';

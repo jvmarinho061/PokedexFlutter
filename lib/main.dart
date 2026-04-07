@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dio = Dio();
     return MaterialApp(
       title: 'Pokedex',
       debugShowCheckedModeBanner: false,
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
       ),
       home: PokedexRoute(
         dataSource: PokemonLocalDataSource(isarDb: isarDb),
-        repository: PokemonRepository(dio: Dio()),
+        repository: PokemonRepository(dio: dio),
+        dio: dio,
       ),
     );
   }

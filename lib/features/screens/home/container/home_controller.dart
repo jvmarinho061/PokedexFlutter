@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:projetopokedex/common/models/pokemon.dart';
 import 'package:projetopokedex/common/models/repositories/pokemon_repository.dart';
 import 'package:projetopokedex/snapshots/datasources/pokemon_local_data_source.dart';
@@ -46,7 +46,9 @@ class HomeController extends ChangeNotifier {
       await dataSource.savePokemon(filtered);
       offset += 20;
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
 
     isLoading = false;

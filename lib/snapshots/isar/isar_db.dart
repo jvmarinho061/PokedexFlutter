@@ -1,5 +1,6 @@
 import 'package:isar_community/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:projetopokedex/snapshots/isar/entities/pokemon_description_entity.dart';
 import 'package:projetopokedex/snapshots/isar/entities/pokemon_entity.dart';
 
 class IsarDb {
@@ -19,7 +20,8 @@ class IsarDb {
 
     _isar = await Isar.open(
       inspector: true,
-      [PokemonEntitySchema],
+      [PokemonEntitySchema,
+      PokemonDescriptionEntitySchema],
       directory: dir.path,
       name: 'pokemon_db_offline',
       );
