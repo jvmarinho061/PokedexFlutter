@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:projetopokedex/common/error/failure.dart';
-import 'package:projetopokedex/common/models/repositories/pokemon_repository.dart';
 import 'package:projetopokedex/features/screens/details/detail_container.dart';
 import 'package:projetopokedex/features/screens/home/container/home_controller.dart';
 import 'package:projetopokedex/features/screens/home/container/pages/home_error.dart';
 import 'package:projetopokedex/features/screens/home/container/pages/home_loading.dart';
 import 'package:projetopokedex/features/screens/home/container/pages/home_page.dart';
-import 'package:projetopokedex/snapshots/datasources/pokemon_local_data_source.dart';
 
 class HomeContainer extends StatefulWidget {
   const HomeContainer({
     super.key,
-    required this.repository,
     required this.onItemTap, 
-    required this.dataSource,
+    required this.controller,
   });
-  final PokemonRepository repository;
+  
   final Function(String, DetailArguments) onItemTap;
-  final PokemonLocalDataSource dataSource;
+  final HomeController controller;
+
 
   @override
   State<HomeContainer> createState() => _HomeContainerState();
@@ -33,7 +31,7 @@ class _HomeContainerState extends State<HomeContainer> {
   void initState() {
     super.initState();
 
-    controller = HomeController(repository: widget.repository, widget.dataSource);
+    controller = widget.controller; //recebe o controller pronto
 
     _init();
   }
@@ -60,6 +58,8 @@ class _HomeContainerState extends State<HomeContainer> {
       return HomeError(error: error!);
     }
 
-    return HomePage(controller: controller, onItemTap: widget.onItemTap);
+    return HomePage(
+      controller: controller, 
+      onItemTap: widget.onItemTap);
   }
 }

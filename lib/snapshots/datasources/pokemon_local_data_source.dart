@@ -1,8 +1,8 @@
 import 'package:isar_community/isar.dart';
 import 'package:projetopokedex/common/models/pokemon.dart';
 import 'package:projetopokedex/common/models/pokemondescription.dart';
-import 'package:projetopokedex/snapshots/isar/entities/pokemon_description_entity.dart';
-import 'package:projetopokedex/snapshots/isar/entities/pokemon_entity.dart';
+import 'package:projetopokedex/features/domain/entities/pokemon_description_entity.dart';
+import 'package:projetopokedex/features/domain/entities/pokemon_entity.dart';
 import 'package:projetopokedex/snapshots/isar/isar_db.dart';
 import 'package:projetopokedex/snapshots/isar/mappers/pokemon_description_mapper.dart';
 import 'package:projetopokedex/snapshots/isar/mappers/pokemon_mapper.dart';

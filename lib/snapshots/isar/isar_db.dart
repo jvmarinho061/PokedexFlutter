@@ -1,7 +1,7 @@
 import 'package:isar_community/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:projetopokedex/snapshots/isar/entities/pokemon_description_entity.dart';
-import 'package:projetopokedex/snapshots/isar/entities/pokemon_entity.dart';
+import 'package:projetopokedex/features/domain/entities/pokemon_description_entity.dart';
+import 'package:projetopokedex/features/domain/entities/pokemon_entity.dart';
 
 class IsarDb {
   Isar? _isar;

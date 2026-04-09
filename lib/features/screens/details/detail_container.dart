@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:projetopokedex/common/error/failure.dart';
 import 'package:projetopokedex/common/models/pokemon.dart';
-import 'package:projetopokedex/common/models/repositories/pokemon_repository.dart';
+import 'package:projetopokedex/features/domain/repositories/pokemon_repository_impl.dart';
 import 'package:projetopokedex/common/widgets/po_error.dart';
 import 'package:projetopokedex/common/widgets/po_loading.dart';
 import 'package:projetopokedex/features/screens/details/datail_page.dart';
 import 'package:projetopokedex/features/screens/details/detail_controller.dart';
-import 'package:projetopokedex/common/models/repositories/pokemon_description_repository.dart';
+import 'package:projetopokedex/features/domain/repositories/pokemon_description_repository.dart';
 import 'package:projetopokedex/snapshots/datasources/pokemon_local_data_source.dart';
 
 class DetailArguments {
@@ -26,7 +26,7 @@ class DetailContainer extends StatefulWidget {
     required this.descriptionRepository,
   });
 
-  final IPokemonRepository repository;
+  final PokemonRepository repository;
   final DetailArguments arguments;
   final VoidCallback onBack;
   final PokemonLocalDataSource dataSource;
@@ -55,7 +55,7 @@ class DetailContainerState extends State<DetailContainer> {
       widget.dataSource,
       repository: widget.descriptionRepository,
     );
-    future = widget.repository.getPokemon();
+    future = widget.repository.getPokemons();
     pokemon = widget.arguments.pokemon;
     detailController.loadDescription(pokemon!.name);
   }

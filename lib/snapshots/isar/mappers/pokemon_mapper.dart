@@ -1,5 +1,5 @@
 import 'package:projetopokedex/common/models/pokemon.dart';
-import 'package:projetopokedex/snapshots/isar/entities/pokemon_entity.dart';
+import 'package:projetopokedex/features/domain/entities/pokemon_entity.dart';
 
 extension PokemonMapper on PokemonEntity {
   Pokemon toModel() {

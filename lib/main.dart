@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:projetopokedex/common/models/repositories/pokemon_repository.dart';
+import 'package:projetopokedex/features/domain/datasources/pokemon_remote_datarsource.dart';
+import 'package:projetopokedex/features/domain/repositories/pokemon_repository_impl.dart';
 import 'package:projetopokedex/features/screens/pokedex/route.dart';
 import 'package:projetopokedex/snapshots/datasources/pokemon_local_data_source.dart';
 import 'package:projetopokedex/snapshots/isar/isar_db.dart';
@@ -19,6 +20,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dio = Dio();
+
+    //dataSource
+    final remote = PokemonRemoteDatarsource(dio);
+    final local = PokemonLocalDataSource(isarDb: isarDb);
+    //repository
+    final repository = PokemonRepository(
+      remote: remote,
+      local: local
+      );
     return MaterialApp(
       title: 'Pokedex',
       debugShowCheckedModeBanner: false,
@@ -26,11 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         useMaterial3: true,
       ),
-      home: PokedexRoute(
-        dataSource: PokemonLocalDataSource(isarDb: isarDb),
-        repository: PokemonRepository(dio: dio),
-        dio: dio,
-      ),
+      home: PokedexRoute(getPokemons: getPokemons),
     );
   }
 }

@@ -1,31 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:projetopokedex/common/models/pokemon.dart';
-import 'package:projetopokedex/common/models/repositories/pokemon_repository.dart';
-import 'package:projetopokedex/snapshots/datasources/pokemon_local_data_source.dart';
+import 'package:projetopokedex/features/domain/usecases/get_pokemons.dart';
 
 class HomeController extends ChangeNotifier {
-  final PokemonRepository repository;
-  final PokemonLocalDataSource dataSource;
+  final GetPokemons getPokemons;
 
-  HomeController(this.dataSource, {required this.repository});
+  HomeController(this.getPokemons);
 
   List<Pokemon> pokemons = [];
-
-  bool isLoading = false;
   int offset = 0;
-
-  Future<void> init() async {
-    final cached = await dataSource.getCachedPokemon();
-
-    if (cached.isNotEmpty) {
-      pokemons.addAll(cached);
-
-      offset = pokemons.length;
-
-      notifyListeners();
-    }
-    await loadPokemons();
-  }
+  bool isLoading = false;
 
   Future<void> loadPokemons() async {
     if (isLoading) return;
@@ -34,7 +18,8 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final newPokemons = await repository.getPokemon(offset: offset);
+      final newPokemons = await getPokemons(offset: offset);
+
       final existingIds = pokemons.map((e) => e.id).toSet();
 
       final filtered = newPokemons
@@ -43,12 +28,9 @@ class HomeController extends ChangeNotifier {
 
       pokemons.addAll(filtered);
 
-      await dataSource.savePokemon(filtered);
       offset += 20;
     } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
+      if (kDebugMode) print(e);
     }
 
     isLoading = false;

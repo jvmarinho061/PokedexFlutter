@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projetopokedex/common/models/pokemondescription.dart';
-import 'package:projetopokedex/common/models/repositories/pokemon_description_repository.dart';
+import 'package:projetopokedex/features/domain/repositories/pokemon_description_repository.dart';
 import 'package:projetopokedex/snapshots/datasources/pokemon_local_data_source.dart';
 
 class DetailController extends ChangeNotifier {
